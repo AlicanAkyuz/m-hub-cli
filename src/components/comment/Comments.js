@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 
 import Context from "../../context";
 import Loading from "../pages/Loading";
+import root from "../../utils/root";
 
 const Comments = ({ pinId, classes }) => {
   const { state, dispatch } = useContext(Context);
@@ -20,7 +21,7 @@ const Comments = ({ pinId, classes }) => {
   useEffect(() => {
     const getMemoryComments = async () => {
       try {
-        const { data } = await axios.get(`/pins/${pinId}`);
+        const { data } = await axios.get(`${root}/pins/${pinId}`);
         dispatch({ type: "COMMENTS", payload: data.comments });
         setLoading(false);
       } catch (err) {
@@ -32,7 +33,7 @@ const Comments = ({ pinId, classes }) => {
     return function() {
       dispatch({ type: "COMMENTS", payload: [] });
     };
-  }, []);
+  }, [dispatch, pinId]);
 
   // return circularprogress until loading is set to false
   if (loading) {

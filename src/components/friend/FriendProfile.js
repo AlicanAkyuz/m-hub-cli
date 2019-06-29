@@ -11,6 +11,7 @@ import Chip from "@material-ui/core/Chip";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
 import ClearIcon from "@material-ui/icons/Clear";
 
+import root from "../../utils/root";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 
@@ -41,7 +42,7 @@ const FriendProfile = ({ classes }) => {
     // check if user is added by page owner
     const getUserProfile = async () => {
       try {
-        const { data, statusText } = await axios.get("/profile");
+        const { data, statusText } = await axios.get(`${root}/profile`);
         if (statusText === "OK") {
           const isAdded = data.friendRequests.find(
             rq => rq.name === currentAuthor.name
@@ -54,7 +55,12 @@ const FriendProfile = ({ classes }) => {
     };
 
     getUserProfile();
-  }, []);
+  }, [
+    currentAuthor.name,
+    friendProfile.friendRequests,
+    friendProfile.friends,
+    user.name
+  ]);
 
   // handle click on addFriend / cancel friend
   const onAddOrCancelClick = async () => {
@@ -62,7 +68,7 @@ const FriendProfile = ({ classes }) => {
       // post the user to the page owner's requests
       try {
         const body = { name: currentAuthor.name };
-        const res = await axios.post("/profile/friends/requests", body);
+        const res = await axios.post(`${root}/profile/friends/requests`, body);
         if (res.statusText === "OK") setIsOwnerAddedByUser(true);
       } catch (err) {
         setErrors(true);
@@ -71,7 +77,7 @@ const FriendProfile = ({ classes }) => {
       // delete user from page owner's requests
       try {
         const { statusText } = await axios.delete(
-          `/profile/friends/requests/${currentAuthor.name}`
+          `${root}/profile/friends/requests/${currentAuthor.name}`
         );
         if (statusText === "OK") setIsOwnerAddedByUser(false);
       } catch (err) {
@@ -84,7 +90,7 @@ const FriendProfile = ({ classes }) => {
   const onUnfriendClick = async () => {
     try {
       const { statusText } = await axios.delete(
-        `/profile/friends/${currentAuthor.name}`
+        `${root}/profile/friends/${currentAuthor.name}`
       );
 
       if (statusText === "OK") {
@@ -100,7 +106,7 @@ const FriendProfile = ({ classes }) => {
   // on accept friend request of the page owner by the user
   const onAcceptFriend = async () => {
     try {
-      const { statusText } = await axios.post("/profile/friends", {
+      const { statusText } = await axios.post(`${root}/profile/friends`, {
         name: currentAuthor.name
       });
       if (statusText === "OK") setAreFriends(true);

@@ -13,6 +13,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Avatar from "@material-ui/core/Avatar";
 import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
 
+import root from "../../utils/root";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import AuthToken from "../../utils/AuthToken";
@@ -60,7 +61,7 @@ const UpdateOrCreateProfile = ({ classes }) => {
 
     // get the new user object if image uploaded & post the profile to DB
     try {
-      const { data } = await axios.post("/profile", newProfile);
+      const { data } = await axios.post(`${root}/profile`, newProfile);
       if (data) {
         // update profile on state
         dispatch({ type: "PROFILE", payload: data });
@@ -69,7 +70,7 @@ const UpdateOrCreateProfile = ({ classes }) => {
         setLoading(false);
       }
       if (image) {
-        const { data } = await axios.get("/users/current");
+        const { data } = await axios.get(`${root}/users/current`);
         if (data) dispatch({ type: "SET_USER", payload: data });
       }
     } catch (err) {
@@ -106,7 +107,7 @@ const UpdateOrCreateProfile = ({ classes }) => {
   const deleteProfile = async () => {
     setLoading(true);
     try {
-      const data = await axios.delete("/profile");
+      const data = await axios.delete(`${root}/profile`);
       // clear local storage, auth header, and the state
       if (data) {
         setDialog(false);

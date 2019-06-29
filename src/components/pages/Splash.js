@@ -17,7 +17,7 @@ const Splash = () => {
       dispatch({ type: "AUTH", payload: true });
       dispatch({ type: "SET_USER", payload: decoded_user });
     }
-  }, []);
+  }, [dispatch]);
 
   // redirect to the site if user authenticated, otherwise render login screen
   return state.isAuth ? <Redirect to="/map" /> : <Login />;

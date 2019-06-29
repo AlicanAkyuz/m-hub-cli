@@ -11,6 +11,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
+import root from "../../utils/root";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 
@@ -22,7 +23,7 @@ const UserMemoryFeed = ({ classes }) => {
   useEffect(() => {
     const getUserPins = async () => {
       try {
-        const { data } = await axios.get("/pins/me_pins");
+        const { data } = await axios.get(`${root}/pins/me_pins`);
         data ? setPins(data) : setPins([]);
       } catch (err) {
         console.log(err);

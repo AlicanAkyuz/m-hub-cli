@@ -13,6 +13,7 @@ import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMe
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import Loading from "../pages/Loading";
+import root from "../../utils/root";
 
 const CreateMemory = ({ classes }) => {
   const mobileSize = useMediaQuery("(max-width: 650px)");
@@ -41,14 +42,14 @@ const CreateMemory = ({ classes }) => {
         longitude: longitude.toString()
       };
       //wait for new pin to be created on DB
-      const pinAdded = await axios.post("/pins/", newPin);
+      const pinAdded = await axios.post(`${root}/pins/`, newPin);
 
       // if new pin created, clear draft state and fetch all user pins
       if (pinAdded.statusText === "OK") {
         handleDeleteDraft();
         try {
           // get all memories
-          const { data } = await axios.get("/pins/all");
+          const { data } = await axios.get(`${root}/pins/all/`);
           if (data) {
             // set all memories, including the new one, to local state
             dispatch({ type: "MEMORIES", payload: data });

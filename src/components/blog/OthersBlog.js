@@ -10,6 +10,7 @@ import Chip from "@material-ui/core/Chip";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
 import ClearIcon from "@material-ui/icons/Clear";
 
+import root from "../../utils/root";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import Comments from "../comment/Comments";
@@ -29,7 +30,9 @@ const MemoryContent = ({ classes }) => {
         // check if the author (of the pin) is already added as a friend by the user
 
         // pull author's requests
-        const { data } = await axios.get(`/profile/friends/requests/${author}`);
+        const { data } = await axios.get(
+          `${root}/profile/friends/requests/${author}`
+        );
 
         // check if author's requests includes the current user
         const isAdded = data.find(request => request.name === state.user.name);
@@ -39,7 +42,7 @@ const MemoryContent = ({ classes }) => {
 
         // check if the author (of the pin) already is a friend of the current user
         // pull the current user's friends
-        const res = await axios.get("/profile/friends/all");
+        const res = await axios.get(`${root}/profile/friends/all`);
 
         if (res.data) {
           // check if user's friends include the author of the pin
@@ -53,7 +56,7 @@ const MemoryContent = ({ classes }) => {
       }
     };
     getAuthorsRequests();
-  }, []);
+  }, [author, state.user.name]);
 
   // handle click on addFriend/cancel friend
   const onAddOrCancelClick = async () => {
@@ -61,7 +64,7 @@ const MemoryContent = ({ classes }) => {
     if (!added) {
       try {
         const body = { name: author };
-        const res = await axios.post("/profile/friends/requests", body);
+        const res = await axios.post(`${root}/profile/friends/requests`, body);
         if (res.statusText === "OK") {
           setAdded(!added);
         } else {
@@ -74,7 +77,7 @@ const MemoryContent = ({ classes }) => {
       // delete user from author's requests
       try {
         const { statusText } = await axios.delete(
-          `/profile/friends/requests/${author}`
+          `${root}/profile/friends/requests/${author}`
         );
         if (statusText === "OK") setAdded(false);
       } catch (err) {
@@ -86,7 +89,7 @@ const MemoryContent = ({ classes }) => {
   // handle unfriend request
   const onUnfriendClick = async () => {
     try {
-      const res = await axios.delete(`/profile/friends/${author}`);
+      const res = await axios.delete(`${root}/profile/friends/${author}`);
       if (res.statusText === "OK") {
         setIsFriend(false);
         setAdded(false);

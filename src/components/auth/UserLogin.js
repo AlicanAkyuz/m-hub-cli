@@ -13,6 +13,7 @@ import gif from "../../images/mapGift.gif";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import AuthToken from "../../utils/AuthToken";
+import root from "../../utils/root";
 
 const UserLogin = ({ classes }) => {
   const mobileSize = useMediaQuery("(max-width: 650px)");
@@ -27,7 +28,7 @@ const UserLogin = ({ classes }) => {
     const user = { email, password };
     // log in user
     try {
-      const response = await axios.post("/users/login", user);
+      const response = await axios.post(`${root}/users/login`, user);
       // when successfully logged in, set token to localStorage and future request headers
       if (response.data.success) {
         const { token } = response.data;

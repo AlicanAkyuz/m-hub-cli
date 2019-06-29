@@ -16,6 +16,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Tooltip from "@material-ui/core/Tooltip";
 import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
 
+import root from "../../utils/root";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import AuthToken from "../../utils/AuthToken";
@@ -34,7 +35,7 @@ const UserProfile = ({ classes }) => {
   const deleteProfile = async () => {
     setLoading(true);
     try {
-      const data = await axios.delete("/profile");
+      const data = await axios.delete(`${root}/profile`);
       // clear local storage, auth header, and the state
       if (data) {
         setDialog(false);

@@ -12,6 +12,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
 
+import root from "../../utils/root";
 import withRoot from "../../withRoot";
 import Context from "../../context";
 import PinIcon from "./PinIcon";
@@ -71,7 +72,7 @@ const Map = ({ classes }) => {
   // get all memories
   const getMeMemories = async () => {
     try {
-      const { data } = await axios.get("/pins/all");
+      const { data } = await axios.get(`${root}/pins/all`);
       // hold memories on state and end loading screen upon successful fetch
       if (data) {
         dispatch({ type: "MEMORIES", payload: data });
@@ -96,7 +97,7 @@ const Map = ({ classes }) => {
   useEffect(() => {
     const getUserProfile = async () => {
       try {
-        const { data } = await axios.get("/profile");
+        const { data } = await axios.get(`${root}/profile`);
         if (data.userActivityCount === 1) setBoarding(true);
       } catch (err) {
         setErrors(true);
@@ -115,7 +116,7 @@ const Map = ({ classes }) => {
       dispatch({ type: "SET_PIN_AUTHOR", payload: state.user });
     } else {
       // if not, get the user info of the author
-      const { data } = await axios.get(`/users/${pin.author}`);
+      const { data } = await axios.get(`${root}/users/${pin.author}`);
       dispatch({ type: "SET_PIN_AUTHOR", payload: data });
     }
   };
@@ -136,7 +137,7 @@ const Map = ({ classes }) => {
   const handleDeletePin = async pin => {
     // setLoading(true);
     try {
-      const { statusText } = await axios.delete(`/pins/${pin._id}`);
+      const { statusText } = await axios.delete(`${root}/pins/${pin._id}`);
       // upon successful deletion;
       // set popup, clean singleMemory and get all memories again
       if (statusText === "OK") {

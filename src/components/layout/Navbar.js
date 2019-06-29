@@ -11,6 +11,7 @@ import Avatar from "@material-ui/core/Avatar";
 
 import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
 
+import root from "../../utils/root";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import FriendRequests from "./FriendRequests";
@@ -25,7 +26,7 @@ const NavBar = ({ page, classes }) => {
   useEffect(() => {
     const getUserProfile = async () => {
       try {
-        const res = await axios.get("/profile");
+        const res = await axios.get(`${root}/profile`);
         if (res.statusText === "OK") {
           dispatch({ type: "PROFILE", payload: res.data });
         } else {
@@ -37,7 +38,7 @@ const NavBar = ({ page, classes }) => {
     };
 
     getUserProfile();
-  }, []);
+  }, [dispatch]);
 
   return (
     <AppBar

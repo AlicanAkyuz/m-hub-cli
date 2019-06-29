@@ -18,7 +18,7 @@ const Profile = ({ classes }) => {
     return function clear() {
       dispatch({ type: "PROFILE_UPDATE", payload: false });
     };
-  }, []);
+  }, [dispatch]);
 
   // profile content is by default user's profile
   let profileContent = <UserProfile />;

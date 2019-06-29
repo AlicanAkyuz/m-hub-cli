@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
 
 import Context from "../../context";
+import root from "../../utils/root";
 
 import NavBar from "../layout/Navbar";
 import FriendProfile from "./FriendProfile";
@@ -23,7 +24,7 @@ const Friend = ({ classes }) => {
     const getFriendProfileAndMemories = async () => {
       try {
         const { data, statusText } = await axios.get(
-          `/profile/friend/${state.currentAuthor.name}`
+          `${root}/profile/friend/${state.currentAuthor.name}`
         );
 
         if (statusText === "OK") {
@@ -32,7 +33,7 @@ const Friend = ({ classes }) => {
           // get friend's memories
           try {
             const res = await axios.get(
-              `/pins/friend/${state.currentAuthor.name}`
+              `${root}/pins/friend/${state.currentAuthor.name}`
             );
             if (res.statusText === "OK") {
               dispatch({ type: "FRIEND_MEMORIES", payload: res.data });
@@ -49,7 +50,7 @@ const Friend = ({ classes }) => {
       }
     };
     getFriendProfileAndMemories();
-  }, []);
+  }, [dispatch, state.currentAuthor.name]);
 
   // redirect to discover page upon click on 'view memory'
   if (state.currentPin) return <Redirect to="/map" />;

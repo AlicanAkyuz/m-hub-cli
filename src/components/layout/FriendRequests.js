@@ -15,6 +15,7 @@ import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMe
 
 import Context from "../../context";
 import withRoot from "../../withRoot";
+import root from "../../utils/root";
 
 const FriendRequests = ({ classes }) => {
   const mobileSize = useMediaQuery("(max-width: 650px)");
@@ -28,7 +29,7 @@ const FriendRequests = ({ classes }) => {
   // get user's friend requests
   useEffect(() => {
     const getRequests = async () => {
-      const { data } = await axios.get("/profile/friends/requests");
+      const { data } = await axios.get(`${root}/profile/friends/requests`);
       if (data) setRequests(data);
     };
     getRequests();
@@ -53,7 +54,7 @@ const FriendRequests = ({ classes }) => {
   // on accept click, add the friend and set requests on local state
   const onAccept = async name => {
     try {
-      const res = await axios.post("/profile/friends", { name });
+      const res = await axios.post(`${root}/profile/friends`, { name });
       res.statusText === "OK"
         ? setRequests(res.data.friendRequests)
         : setRequests([]);
@@ -66,7 +67,7 @@ const FriendRequests = ({ classes }) => {
   const onDecline = async name => {
     try {
       const res = await axios.delete(
-        `/profile/friends/requests/decline/${name}`
+        `${root}/profile/friends/requests/decline/${name}`
       );
       res.statusText === "OK"
         ? setRequests(res.data.friendRequests)

@@ -13,6 +13,7 @@ import gif from "../../images/mapGift.gif";
 import Context from "../../context";
 import withRoot from "../../withRoot";
 import AuthToken from "../../utils/AuthToken";
+import root from "../../utils/root";
 
 const Register = ({ classes }) => {
   const mobileSize = useMediaQuery("(max-width: 650px)");
@@ -30,12 +31,12 @@ const Register = ({ classes }) => {
 
     try {
       // register user
-      const response = await axios.post("/users/register", newUser);
+      const response = await axios.post(`${root}/users/register`, newUser);
       if (response.data) {
         // if registered successfully, log in user
         const user = { email, password };
         try {
-          const res = await axios.post("/users/login", user);
+          const res = await axios.post(`${root}/users/login`, user);
           // when successfully logged in, set token to localStorage and future request headers
           if (res.data.success) {
             const { token } = res.data;

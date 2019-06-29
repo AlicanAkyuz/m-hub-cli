@@ -9,6 +9,7 @@ import Divider from "@material-ui/core/Divider";
 
 import Context from "../../context";
 import Loading from "../pages/Loading";
+import root from "../../utils/root";
 
 const CreateComment = ({ classes }) => {
   const { dispatch, state } = useContext(Context);
@@ -32,10 +33,12 @@ const CreateComment = ({ classes }) => {
 
     try {
       // post the comment
-      const { statusText } = await axios.post(`/pins/comments`, data);
+      const { statusText } = await axios.post(`${root}/pins/comments`, data);
       if (statusText === "OK") {
         // upon successful posting, get all comments and set comments state
-        const { data } = await axios.get(`/pins/${state.currentPin._id}`);
+        const { data } = await axios.get(
+          `${root}/pins/${state.currentPin._id}`
+        );
         dispatch({ type: "COMMENTS", payload: data.comments });
         // clear loading screen and  local state
         setLoading(false);
