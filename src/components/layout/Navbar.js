@@ -24,6 +24,8 @@ const NavBar = ({ page, classes }) => {
   const { user, profile } = state;
 
   useEffect(() => {
+    // set boolen to false so that profile doesn't redirects but renders feed
+    dispatch({ type: "SET_PIN_BOL", payload: false });
     const getUserProfile = async () => {
       try {
         const res = await axios.get(`${root}/profile`);

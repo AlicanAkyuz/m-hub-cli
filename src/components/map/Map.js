@@ -31,15 +31,7 @@ const Map = ({ classes }) => {
 
   const { state, dispatch } = useContext(Context);
 
-  let viewportVal = {};
-  !state.currentPin
-    ? (viewportVal = INITIAL_VIEWPORT)
-    : (viewportVal = {
-        latitude: state.currentPin.latitude,
-        longitude: state.currentPin.longitude
-      });
-
-  const [viewport, setViewport] = useState(viewportVal);
+  const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
   const [userPosition, setUserPosition] = useState(INITIAL_VIEWPORT);
   const [popup, setPopup] = useState(null);
   const [errors, setErrors] = useState(false);
@@ -67,7 +59,7 @@ const Map = ({ classes }) => {
       setViewport(null);
       setUserPosition(null);
     };
-  }, [state.currentPin]);
+  }, []);
 
   // get all memories
   const getMeMemories = async () => {
@@ -91,7 +83,7 @@ const Map = ({ classes }) => {
       dispatch({ type: "MEMORIES", payload: [] });
       dispatch({ type: "SET_PIN", payload: null });
     };
-  }, []);
+  }, [dispatch]);
 
   // set boarding to true if user is newly-registered
   useEffect(() => {
@@ -142,7 +134,9 @@ const Map = ({ classes }) => {
       // set popup, clean singleMemory and get all memories again
       if (statusText === "OK") {
         setPopup(null);
+        setViewport(viewport);
         dispatch({ type: "SET_PIN", payload: null });
+        dispatch({ type: "SET_PIN_BOL", payload: false });
         getMeMemories();
       }
     } catch (err) {
@@ -151,9 +145,12 @@ const Map = ({ classes }) => {
   };
 
   // upon dialog close for boarding users
-  const handleDialogCloseClick = async () => {
-    // set boarding to false
-    setBoarding(false);
+  const handleDialogCloseClick = () => setBoarding(false);
+
+  const onPopupClose = async () => {
+    await dispatch({ type: "SET_PIN", payload: null });
+    await dispatch({ type: "SET_PIN_BOL", payload: false });
+    await setPopup(null);
   };
 
   // return circularprogress until loading is set to false
@@ -259,10 +256,7 @@ const Map = ({ classes }) => {
               latitude={Number(popup.latitude)}
               longitude={Number(popup.longitude)}
               closeOnClick={false}
-              onClose={() => {
-                dispatch({ type: "SET_PIN", payload: null });
-                setPopup(null);
-              }}
+              onClose={onPopupClose}
             >
               <img
                 className={

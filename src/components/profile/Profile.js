@@ -26,7 +26,8 @@ const Profile = ({ classes }) => {
   // render an 'update profile UI' when update is clicked
   if (state.profileUpdate) profileContent = <UpdateOrCreateProfile />;
   // redirect to /map with current memory set to whatever the user clicked on the feed
-  if (state.currentPin) profileContent = <Redirect to="/map" />;
+  if (state.currentPin && state.currenPinBool)
+    profileContent = <Redirect to="/map" />;
 
   return (
     <div className={mobileSize ? classes.rootMobile : classes.root}>

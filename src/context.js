@@ -6,6 +6,7 @@ const Context = createContext({
   user: {}, // hold user data; id, avatar, name, latitude and longitude
   memories: [], // hold user/other users' memories upon /map // /discover mounting
   currentPin: null, // hold single memory; either to observe in /map
+  currenPinBool: false, // hold boolen in case map rendered through user feed
   currentAuthor: {}, // hold author info of currentPin in Discover & Friend Profile
   draft: null, // hold draft memory's lat and long
   comments: [], // hold a memory's comments; cleared upon dismounting

@@ -35,6 +35,11 @@ const UserMemoryFeed = ({ classes }) => {
     };
   }, []);
 
+  const onMemoryClick = async pin => {
+    await dispatch({ type: "SET_PIN", payload: pin });
+    await dispatch({ type: "SET_PIN_BOL", payload: true });
+  };
+
   return (
     <Paper className={classes.card}>
       <Typography className={classes.title}>Your Memories</Typography>
@@ -67,9 +72,7 @@ const UserMemoryFeed = ({ classes }) => {
                       Created {distanceInWordsToNow(pin.date)} ago
                     </Typography>
                     <Button
-                      onClick={() =>
-                        dispatch({ type: "SET_PIN", payload: pin })
-                      }
+                      onClick={() => onMemoryClick(pin)}
                       className={classes.button}
                       variant="outlined"
                       color="secondary"

@@ -35,6 +35,12 @@ export default function reducer(state, { type, payload }) {
         currentPin: payload,
         draft: null
       };
+    // set pin boolean when pin clicked in memory feeds
+    case "SET_PIN_BOL":
+      return {
+        ...state,
+        currenPinBool: payload
+      };
     // set author of the currentPin in Discover & Friend Type
     case "SET_PIN_AUTHOR":
       return {
