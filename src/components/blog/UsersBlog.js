@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { distanceInWordsToNow } from "date-fns";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -12,9 +12,14 @@ import Comments from "../comment/Comments";
 import CreateComment from "../comment/CreateComment";
 
 const UsersBlog = ({ classes }) => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
 
-  console.log(state);
+  useEffect(() => {
+    return function cleanUp() {
+      dispatch({ type: "SET_PIN", payload: null });
+      dispatch({ type: "SET_PIN_BOL", payload: false });
+    };
+  });
 
   const { _id, title, image, content, author, date } = state.currentPin;
 
@@ -92,7 +97,7 @@ const styles = theme => ({
     marginTop: "3%"
   },
   userMemory: {
-    width: "200px",
+    width: "240px",
     height: "200px",
     borderRadius: "5%"
   },
