@@ -98,7 +98,7 @@ const styles = theme => ({
   },
   userMemory: {
     width: "240px",
-    height: "200px",
+    height: "220px",
     borderRadius: "5%"
   },
   contentContainer: {
