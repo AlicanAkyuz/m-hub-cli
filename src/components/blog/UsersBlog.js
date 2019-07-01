@@ -19,7 +19,7 @@ const UsersBlog = ({ classes }) => {
       dispatch({ type: "SET_PIN", payload: null });
       dispatch({ type: "SET_PIN_BOL", payload: false });
     };
-  });
+  }, []);
 
   const { _id, title, image, content, author, date } = state.currentPin;
 
